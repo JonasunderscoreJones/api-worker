@@ -33,6 +33,12 @@ addEventListener('fetch', event => {
 		  status: 420,
 		  statusText: 'API Backend Downtime Error'
 		});
+	} else if (apiResponse.status === 530) {
+		// If the API request fails, return an error response
+		return new Response('API backend went down just now :( It should be back up in a matter of seconds!', {
+		  status: 421,
+		  statusText: 'API Backend Downtime Error'
+		});
 	  } else {
 		// If the API request fails, return the API response
 		return apiResponse;
