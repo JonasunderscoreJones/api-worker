@@ -24,10 +24,7 @@ addEventListener('fetch', event => {
 	try {
 	  const apiResponse = await fetch(apiRequest);
   
-	  if (apiResponse.ok) {
-		// If the API request is successful, return the response
-		return apiResponse;
-	  } else if (apiResponse.status === 502 || apiResponse.status === 530) {
+	  if (apiResponse.status === 502 || apiResponse.status === 530) {
 		// If the API request fails, return an error response
 		return new Response('Service Unavailable', {
 		  status: 503,
@@ -35,10 +32,7 @@ addEventListener('fetch', event => {
 		});
 	  } else {
 		// If the API request fails, return an error response
-		return new Response('API backend went down just now :( It should be back up in a matter of seconds!', {
-		  status: apiResponse.status,
-		  statusText: apiResponse.statusText
-		});
+		return apiResponse;
 	  }
 	} catch (error) {
 	  // If an error occurs during the API request, return an error response
