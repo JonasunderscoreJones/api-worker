@@ -27,21 +27,18 @@ addEventListener('fetch', event => {
 	  if (apiResponse.ok) {
 		// If the API request is successful, return the response
 		return apiResponse;
-	  } else if (apiResponse.status === 502) {
+	  } else if (apiResponse.status === 502 || apiResponse.status === 530) {
 		// If the API request fails, return an error response
-		return new Response('API backend is down temporarily', {
-		  status: 420,
-		  statusText: 'API Backend Downtime Error'
-		});
-	  } else if (apiResponse.status === 530) {
-		// If the API request fails, return an error response
-		return new Response('API backend went down just now :( It should be back up in a matter of seconds!', {
-		  status: 421,
-		  statusText: 'API Backend Downtime Error'
+		return new Response('Service Unavailable', {
+		  status: 503,
+		  statusText: 'Service Unavailable'
 		});
 	  } else {
-		// If the API request fails, return the API response
-		return apiResponse;
+		// If the API request fails, return an error response
+		return new Response('API backend went down just now :( It should be back up in a matter of seconds!', {
+		  status: apiResponse.status,
+		  statusText: apiResponse.statusText
+		});
 	  }
 	} catch (error) {
 	  // If an error occurs during the API request, return an error response
