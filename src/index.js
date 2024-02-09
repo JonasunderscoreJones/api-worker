@@ -1,18 +1,18 @@
 addEventListener('fetch', event => {
 	event.respondWith(handleRequest(event.request));
   });
-  
+
   async function handleRequest(request) {
 	const { pathname, search } = new URL(request.url);
-  
+
 	// List of built-in paths that should not trigger an error
 	const allowedPaths = ['/health', '/status'];
-  
+
 	// if (allowedPaths.includes(pathname)) {
 	//   // Allow requests to built-in paths
 	//   return fetch(request);
 	// }
-  
+
 	// Make a request to someapi.jonasjones.dev/[PATH] including URL parameters
 	const apiUrl = `https://someapi.jonasjones.dev${pathname}${search}`;
 	const apiRequest = new Request(apiUrl, {
@@ -20,10 +20,10 @@ addEventListener('fetch', event => {
 	  headers: request.headers,
 	  body: request.body
 	});
-  
+
 	try {
 	  const apiResponse = await fetch(apiRequest);
-  
+
 	  if (apiResponse.status === 502 || apiResponse.status === 530) {
 		// If the API request fails, return an error response
 		return new Response('Service Unavailable', {
@@ -42,4 +42,3 @@ addEventListener('fetch', event => {
 	  });
 	}
   }
-  
